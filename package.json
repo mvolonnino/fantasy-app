@@ -8,14 +8,22 @@
     "eject": "expo eject",
     "react-devtools": "react-devtools"
   },
+  "proxy": "http://localhost:5000",
   "dependencies": {
+    "@react-navigation/bottom-tabs": "^5.11.11",
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
     "expo": "~41.0.1",
+    "expo-google-app-auth": "^8.1.7",
     "expo-status-bar": "~1.0.4",
+    "google-auth-library": "^7.1.1",
+    "jsonwebtoken": "^8.5.1",
     "react": "16.13.1",
     "react-dev-tools": "^0.0.1",
     "react-devtools": "^4.13.5",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+    "react-native-dotenv": "^2.5.5",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {

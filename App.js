@@ -1,12 +1,16 @@
 <script src="http://localhost:8097"></script>;
-
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
-import { Login } from "./screens";
+import { UserProvider } from "./context";
+import { Landing } from "./screens";
 
 export default function App() {
-  return <Login />;
+  return (
+    <UserProvider>
+      <Landing />
+    </UserProvider>
+  );
 }
 
 const styles = StyleSheet.create({

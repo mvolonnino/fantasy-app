@@ -4,7 +4,6 @@ const getPlayers = async (req, res) => {
   try {
     const players = await PlayerModel.find();
     console.log(players);
-
     res.status(200).json(players);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -12,9 +11,8 @@ const getPlayers = async (req, res) => {
 };
 
 const getPlayerByName = async (req, res) => {
+  const { name } = req.params;
   try {
-    const { name } = req.params;
-    console.log(name);
     const player = await PlayerModel.find({
       $expr: {
         $regexMatch: {

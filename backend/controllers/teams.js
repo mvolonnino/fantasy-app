@@ -4,7 +4,6 @@ const getTeams = async (req, res) => {
   try {
     const teams = await TeamModel.find();
     console.log(teams);
-
     res.status(200).json(teams);
   } catch (error) {
     res.status(404).json({ message: error.message });
@@ -13,7 +12,6 @@ const getTeams = async (req, res) => {
 
 const getTeamByName = async (req, res) => {
   const { name } = req.params;
-
   try {
     const team = await TeamModel.find({
       $text: { $search: name },

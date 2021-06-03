@@ -16,6 +16,9 @@ app.use(cors());
 app.get("/status", (req, res) => res.status(200).send("Status: Healthy"));
 
 // Routes
+const loginRoutes = require("./routes/login.routes");
+app.use("/api/v1/user", loginRoutes.routes);
+
 const teamRoutes = require("./routes/team.routes");
 app.use("/api/v1/teams", teamRoutes.routes);
 

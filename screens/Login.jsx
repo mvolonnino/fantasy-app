@@ -1,22 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
-  TextInput,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
   Dimensions,
   Keyboard,
+  Platform,
 } from "react-native";
+import * as Google from "expo-google-app-auth";
+import { IOS_GOOGLE_CLIENT_ID, ANDROID_GOOGLE_CLIENT_ID } from "@env";
+import axios from "axios";
+
+import { GoogleBtn } from "../shared";
+import { UserContext } from "../context";
 
 const width = Dimensions.get("window").width;
-const height = Dimensions.get("window").height;
+const OS = Platform.OS;
+console.log("Platform OS => ", OS);
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [roomID, setRoomID] = useState("");
+  const { userDispatch } = useContext(UserContext);
+  const [error, setError] = useState("");
 
-  console.log({ email, roomID });
+  async function signInWithGoogleAsync() {
+    try {
+      const result = await Google.logInAsync({
+        androidClientId: IOS_GOOGLE_CLIENT_ID,
+        iosClientId: ANDROID_GOOGLE_CLIENT_ID,
+        scopes: ["profile", "email"],
+      });
+
+      if (result.type === "success") {
+        const { idToken } = result;
+
+        axios({
+          method: "POST",
+          url: "http://localhost:5000/api/v1/user/googlelogin",
+          data: {
+            idToken: idToken,
+            OS,
+          },
+        })
+          .then((res) => {
+            // console.log({ res });
+            const { data } = res;
+            userDispatch({
+              type: "SET_USER",
+              user: data.user,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (e) {
+      console.log(e);
+      setError(e);
+    }
+  }
+
   return (
     <TouchableWithoutFeedback
       style={styles.dismissKeyboard}
@@ -27,16 +70,12 @@ const Login = () => {
           <Text style={styles.headerText}>Muffin Men Fantasy Draft</Text>
         </View>
         <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="email"
-            onChangeText={(value) => setEmail(value)}
-            style={styles.textInput}
+          <GoogleBtn
+            text="sign in with google"
+            onPress={() => signInWithGoogleAsync()}
           />
-          <TextInput
-            placeholder="Draft Room ID"
-            onChangeText={(value) => setRoomID(value)}
-            style={styles.textInput}
-          />
+
+          {error ? <Text>{error}</Text> : null}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -52,6 +91,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "center",
     alignItems: "center",
+    margin: 10,
   },
   headerContainer: {
     justifyContent: "center",

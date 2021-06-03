@@ -103,7 +103,6 @@ async function fetchPlayerStats(id, year, allStats) {
 async function main() {
   const teams = await fetchAllTeamsID();
 
-  let rosterArr = [];
   for (let [i, team] of teams.entries()) {
     console.log(`${i} of ${teams.length}`);
     const { id, name } = team;
@@ -117,7 +116,7 @@ async function main() {
       }
     }
   }
-  // console.log(teams);
+
   teams.forEach(async (team) => {
     const newTeam = new Team(team);
 
