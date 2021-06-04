@@ -35,7 +35,7 @@ const googlelogin = async ({ body }, res) => {
 
   const client = new OAuth2Client(client_id);
   client.verifyIdToken({ idToken }).then((response) => {
-    console.log(response.payload);
+    // console.log(response.payload);
     const { email_verified, name, email, picture } = response.payload;
     if (email_verified) {
       User.findOne({
