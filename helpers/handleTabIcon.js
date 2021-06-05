@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialIcons,
-} from "react-native-vector-icons";
+import { Ionicons, FontAwesome } from "react-native-vector-icons";
 
 const handleTabIcon = ({ route, focused, color, size }) => {
   let iconName;

@@ -8,6 +8,7 @@
     "eject": "expo eject",
     "react-devtools": "react-devtools"
   },
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.11",
