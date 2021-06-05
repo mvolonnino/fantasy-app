@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const useFetchAllTeams = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       try {
+        if (error) setError("");
         const data = await axios.get(
           "http://localhost:5000/api/v1/teams/getTeams/all"
         );
