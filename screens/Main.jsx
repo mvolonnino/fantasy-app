@@ -1,17 +1,12 @@
-import React, { useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { UserContext } from "../context";
 import { Home, Search, Profile } from "./index";
 import { handleTabIcon } from "../helpers";
 
 const Tab = createBottomTabNavigator();
 
 const Main = ({ navigation }) => {
-  const { userState } = useContext(UserContext);
-  const { user } = userState;
-
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -39,13 +34,5 @@ const Main = ({ navigation }) => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default Main;

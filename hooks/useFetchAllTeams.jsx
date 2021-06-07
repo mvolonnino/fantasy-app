@@ -10,10 +10,14 @@ const useFetchAllTeams = () => {
     (async () => {
       try {
         if (error) setError("");
-        const data = await axios.get(
+        const response = await axios.get(
           "http://localhost:5000/api/v1/teams/getTeams/all"
         );
-        if (data) setData(data);
+
+        if (response) {
+          const { data } = response;
+          setData(data);
+        }
       } catch (error) {
         setError(error.message);
       } finally {

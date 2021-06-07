@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { schema } = require("./RosterModel");
 
 const teamSchema = mongoose.Schema({
   id: Number,
@@ -32,6 +31,7 @@ const teamSchema = mongoose.Schema({
   franchiseId: Number,
   active: Boolean,
   roster: Array,
+  picture: String,
 });
 
 teamSchema.index({ name: "text", abbreviation: "text" });

@@ -1,6 +1,8 @@
 const axios = require("axios");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const puppeteer = require("puppeteer");
+
 const Team = require("./models/TeamModel");
 const Roster = require("./models/RosterModel");
 const Player = require("./models/PlayerModel");
@@ -100,35 +102,65 @@ async function fetchPlayerStats(id, year, allStats) {
   return data;
 }
 
+async function getTeamPicture(page) {
+  const url =
+    "https://www.sportslogos.net/teams/list_by_league/1/National_Hockey_League/NHL/logos/";
+
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 0 });
+
+  const hrefs = await page.$$eval("#team .logoWall > li > a ", (allHrefs) =>
+    allHrefs.map((href) => {
+      if (href.innerText === "Montreal Canadiens") {
+        return {
+          image: href.children[0].attributes.src.value,
+          value: "Montréal Canadiens",
+        };
+      }
+      return {
+        image: href.children[0].attributes.src.value,
+        value: href.innerText,
+      };
+    })
+  );
+
+  return hrefs;
+}
+
 async function main() {
-  const teams = await fetchAllTeamsID();
+  let teams = await fetchAllTeamsID();
+  const browser = await puppeteer.launch({
+    headless: false,
+    defaultViewport: null,
+  });
+  const page = await browser.newPage();
+
+  const hrefs = await getTeamPicture(page);
+  // console.log(hrefs);
+
+  for (let [i, team] of teams.entries()) {
+    const { name } = team;
+    for (let [j, href] of hrefs.entries()) {
+      const { image, value } = href;
+      if (value === name) {
+        team.picture = image;
+      }
+    }
+  }
 
   for (let [i, team] of teams.entries()) {
     console.log(`${i} of ${teams.length}`);
     const { id, name } = team;
     team.roster = await fetchTeamRoster(id, name);
-    if (team.roster) {
-      for (let [j, player] of team.roster.entries()) {
-        console.log(`${j} of ${team.roster.length} / ${i}/${teams.length}`);
-        const { id } = player.person;
-        const allStats = true;
-        player.stats = await fetchPlayerStats(id, null, allStats);
-      }
-    }
+    // if (team.roster) {
+    //   for (let [j, player] of team.roster.entries()) {
+    //     console.log(`${j} of ${team.roster.length} / ${i}/${teams.length}`);
+    //     const { id } = player.person;
+    //     const allStats = true;
+    //     player.stats = await fetchPlayerStats(id, null, allStats);
+    //   }
+    // }
   }
 
-  teams.forEach(async (team) => {
-    const newTeam = new Team(team);
-
-    try {
-      await newTeam.save();
-      console.log(`${team.name} saved`);
-    } catch (error) {
-      console.log(error.message);
-    }
-  });
-
-  // teams.forEach((team) => {});
   // rosterArr.forEach(async (roster) => {
   //   if (roster.roster.length > 0) {
   //     const newRoster = new Roster(roster);
@@ -140,6 +172,18 @@ async function main() {
   //     }
   //   }
   // });
+
+  // teams.forEach(async (team) => {
+  //   const newTeam = new Team(team);
+
+  //   try {
+  //     await newTeam.save();
+  //     console.log(`${team.name} saved`);
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // });
+
   // console.log(rosterArr[0].roster);
   // const rosterInfo = await fetchTeamRoster(5, "Pittsburgh Penguins");
   // rosterArr.push(rosterInfo);
