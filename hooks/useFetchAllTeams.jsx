@@ -7,23 +7,28 @@ const useFetchAllTeams = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      try {
-        if (error) setError("");
-        const response = await axios.get(
-          "http://localhost:5000/api/v1/teams/getTeams/all"
-        );
+    if (data.length === 0) {
+      (async () => {
+        try {
+          setData([]);
+          if (error) setError("");
+          setLoading(true);
+          const response = await axios.get(
+            "http://localhost:5000/api/v1/teams/getTeams/all"
+          );
 
-        if (response) {
-          const { data } = response;
-          setData(data);
+          if (response) {
+            const { data } = response;
+            data.sort((a, b) => a.name.localeCompare(b.name));
+            setData(data);
+          }
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    })();
+      })();
+    }
   }, []);
 
   return { data, error, loading };

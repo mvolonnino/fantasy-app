@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 
-import { UserContext } from "../context";
+import { UserContext } from "../../context";
 
 const Profile = () => {
   const { userState } = useContext(UserContext);

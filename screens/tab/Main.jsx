@@ -2,7 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { Home, Search, Profile } from "./index";
-import { handleTabIcon } from "../helpers";
+import { handleTabIcon } from "../../helpers";
 
 const Tab = createBottomTabNavigator();
 

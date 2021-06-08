@@ -18,9 +18,16 @@ const userSortDivisions = (data) => {
   };
 
   useEffect(() => {
-    data.map((team) => {
-      spiltConferences(team);
-    });
+    if (
+      divisions["Discover Central"].length === 0 ||
+      divisions["Honda West"].length === 0 ||
+      divisions["Scotia North"].length === 0 ||
+      divisions["MassMutual East"].length === 0
+    ) {
+      data.map((team) => {
+        spiltConferences(team);
+      });
+    }
   }, [data]);
 
   return { divisions };

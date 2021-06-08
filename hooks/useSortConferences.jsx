@@ -16,9 +16,11 @@ const useSortConferences = (data) => {
   };
 
   useEffect(() => {
-    data.map((team) => {
-      spiltConferences(team);
-    });
+    if (conferences.Eastern.length === 0 || conferences.Western.length === 0) {
+      data.map((team) => {
+        spiltConferences(team);
+      });
+    }
   }, [data]);
 
   return { conferences };
