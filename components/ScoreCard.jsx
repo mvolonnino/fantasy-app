@@ -64,7 +64,9 @@ const ScoreCard = ({ game }) => {
                 {`${away}: ${awayScore} @ ${home}: ${homeScore}`}
               </Text>
             </View>
-            <Text>{`Playoff Series: ${home}: ${playoff.wins[home]}  ${away}: ${playoff.wins[away]}`}</Text>
+            {playoff && (
+              <Text>{`Playoff Series: ${home}: ${playoff.wins[home]}  ${away}: ${playoff.wins[away]}`}</Text>
+            )}
           </View>
           {showMoreInfo && (
             <ScrollView
