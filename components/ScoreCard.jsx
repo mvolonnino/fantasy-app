@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    height: height * 0.16,
   },
   score: {
     margin: 5,

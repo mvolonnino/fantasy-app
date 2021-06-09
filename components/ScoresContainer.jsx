@@ -49,6 +49,7 @@ const ScoresContainer = () => {
 
 const styles = StyleSheet.create({
   scoreBox: {
+    padding: 5,
     height: height * 0.21,
     justifyContent: "center",
     borderBottomColor: "lightgray",
