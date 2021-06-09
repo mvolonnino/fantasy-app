@@ -1,31 +1,32 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { Button } from "react-native-elements";
+import { ShowConfDivBtn, RenderTeam } from "../shared";
 
 const ConferenceContainer = ({
   conferences,
   styles,
-  renderTeam,
   handlePressConf,
   conference,
 }) => {
   return (
-    <ScrollView style={styles.leagueContainer}>
+    <View style={styles.leagueContainer}>
       <View style={styles.headerBtns}>
         {Object.keys(conferences).map((_conference, idx) => (
           <View style={styles.btns} key={idx}>
-            <Button
+            <ShowConfDivBtn
               title={_conference}
-              type={`${_conference === conference ? "solid" : "outline"}`}
-              onPress={() => handlePressConf(_conference)}
+              state={conference}
+              onPress={handlePressConf}
             />
           </View>
         ))}
       </View>
       <ScrollView style={styles.teams}>
-        {conferences[conference].map((team) => renderTeam(team))}
+        {conferences[conference].map((team) => (
+          <RenderTeam team={team} styles={styles} key={team._id} />
+        ))}
       </ScrollView>
-    </ScrollView>
+    </View>
   );
 };
 

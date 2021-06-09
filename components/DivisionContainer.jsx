@@ -1,31 +1,27 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
-import { Button } from "react-native-elements";
+import { ShowConfDivBtn, RenderTeam } from "../shared";
 
-const DivisionContainer = ({
-  divisions,
-  styles,
-  renderTeam,
-  handlePressDiv,
-  division,
-}) => {
+const DivisionContainer = ({ divisions, styles, handlePressDiv, division }) => {
   return (
-    <ScrollView style={styles.leagueContainer}>
+    <View style={styles.leagueContainer}>
       <View style={styles.headerBtns}>
         {Object.keys(divisions).map((_division, idx) => (
           <View style={styles.btns} key={idx}>
-            <Button
+            <ShowConfDivBtn
               title={_division}
-              type={`${_division === division ? "solid" : "outline"}`}
-              onPress={() => handlePressDiv(_division)}
+              state={division}
+              onPress={handlePressDiv}
             />
           </View>
         ))}
       </View>
       <ScrollView style={styles.teams}>
-        {divisions[division].map((team) => renderTeam(team))}
+        {divisions[division].map((team) => (
+          <RenderTeam team={team} styles={styles} key={team._id} />
+        ))}
       </ScrollView>
-    </ScrollView>
+    </View>
   );
 };
 

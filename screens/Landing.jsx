@@ -9,7 +9,6 @@ const Stack = createStackNavigator();
 
 const Landing = ({ navigation }) => {
   const { userState } = useContext(UserContext);
-  console.log(userState);
   const { user } = userState;
 
   return (

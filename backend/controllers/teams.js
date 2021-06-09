@@ -3,7 +3,7 @@ const TeamModel = require("../models/TeamModel");
 const getTeams = async (req, res) => {
   try {
     const teams = await TeamModel.find();
-    console.log(teams);
+
     res.status(200).json(teams);
   } catch (error) {
     res.status(404).json({ message: error.message });

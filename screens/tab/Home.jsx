@@ -4,7 +4,6 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  Image,
   Dimensions,
   RefreshControl,
   ScrollView,
@@ -37,19 +36,6 @@ const Home = () => {
     Conference: false,
     Division: false,
   });
-
-  const renderTeam = (team) => {
-    return (
-      <View style={styles.teamInfo} key={team._id}>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: team.picture }} style={styles.imageThumbnail} />
-        </View>
-        <View style={styles.textContainer}>
-          <Text>{team.name}</Text>
-        </View>
-      </View>
-    );
-  };
 
   const handlePressConf = (title) => {
     if (conference === title) return;
@@ -99,16 +85,16 @@ const Home = () => {
   return (
     <View style={styles.container}>
       {loading ? (
-        <ActivityIndicator size="large" color="#051426" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#051426" />
+        </View>
       ) : (
         <>
           <View style={styles.container}>
             <View style={styles.headerContainer}>
               <Text style={styles.headerText}>National League </Text>
             </View>
-            <View style={styles.scoresContainer}>
-              <ScoresContainer />
-            </View>
+            <ScoresContainer />
             <View style={styles.pagesHeaderBtns}>
               <PageTitleButtons
                 pages={pages}
@@ -123,23 +109,18 @@ const Home = () => {
               style={styles.teamsContainer}
               onMomentumScrollEnd={(event) => handleSwipeIndicator(event)}
               ref={scrollViewRef}
+              showsHorizontalScrollIndicator={false}
             >
-              <LeagueContainer
-                data={data}
-                style={styles.leagueContainer}
-                renderTeam={renderTeam}
-              />
+              <LeagueContainer data={data} styles={styles} />
               <ConferenceContainer
                 conferences={conferences}
                 styles={styles}
-                renderTeam={renderTeam}
                 handlePressConf={handlePressConf}
                 conference={conference}
               />
               <DivisionContainer
                 divisions={divisions}
                 styles={styles}
-                renderTeam={renderTeam}
                 handlePressDiv={handlePressDiv}
                 division={division}
               />
@@ -155,15 +136,20 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
+  },
+  loadingContainer: {
     flex: 1,
+    justifyContent: "center",
   },
   headerContainer: {
-    paddingVertical: height - height * 0.96,
+    height: height - height * 0.9,
     backgroundColor: "#051426",
     alignItems: "center",
     justifyContent: "center",
   },
   headerText: {
+    marginTop: 30,
     fontSize: 26,
     color: "white",
   },
@@ -176,7 +162,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray",
   },
   teamsContainer: {
-    flex: 1,
+    flexGrow: 1,
   },
   imageThumbnail: {
     height: 100 / 2,
@@ -188,12 +174,15 @@ const styles = StyleSheet.create({
   pagesHeaderBtns: {
     flexDirection: "row",
     justifyContent: "space-around",
-    margin: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    paddingTop: 15,
+    paddingBottom: 5,
   },
   pageTextIndicator: {
     fontSize: 20,
     fontWeight: "bold",
-    borderBottomColor: "black",
+    borderBottomColor: "#051426",
     borderBottomWidth: 2,
     paddingBottom: 10,
   },
@@ -202,10 +191,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   leagueContainer: {
+    flex: 1,
     width: width,
   },
   headerBtns: {
-    flex: 1,
     width: width,
     flexDirection: "row",
   },
