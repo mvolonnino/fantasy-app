@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray",
   },
   teamsContainer: {
-    flexGrow: 1,
+    flex: 1,
   },
   imageThumbnail: {
     height: 100 / 2,
