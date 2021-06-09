@@ -5,10 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
 import { Transition, Transitioning } from "react-native-reanimated";
-import { ScrollView } from "react-native-gesture-handler";
 
 const { height, width } = Dimensions.get("window");
 const transition = (
@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    height: height * 0.16,
   },
   score: {
     margin: 5,
