@@ -81,8 +81,9 @@ const ScoreCard = ({ game }) => {
                   >{`GOAL: ${goal.team}, ${goal.scorer.player} (${goal.scorer.seasonTotal})`}</Text>
                   <View style={styles.assistTextView}>
                     {goal.assists.length > 0 ? (
-                      goal.assists.map((assist) => (
+                      goal.assists.map((assist, i) => (
                         <Text
+                          key={i}
                           style={styles.assistText}
                         >{`${assist.player} (${assist.seasonTotal}) `}</Text>
                       ))
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.65,
     borderRadius: 10,
     borderColor: "lightgray",
-    backgroundColor: "#8d96a1",
+    backgroundColor: "#c5cdd6",
     margin: 5,
     justifyContent: "center",
     alignItems: "center",
@@ -152,7 +153,6 @@ const styles = StyleSheet.create({
   },
   expandedGameStats: {
     marginTop: 10,
-    flexGrow: 1,
   },
   assistTextView: {
     flexDirection: "row",

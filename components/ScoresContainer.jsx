@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ActivityIndicator,
   Dimensions,
-  ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import { SimpleLineIcons } from "react-native-vector-icons";
+import { ScrollView as GestureHanlderScrollView } from "react-native-gesture-handler";
 
 import { useFetchLiveScores } from "../hooks";
-import { ScoreCard } from "../components";
+import { ScoreCard, ScoreCard2 } from "../components";
 
 const { height, width } = Dimensions.get("window");
 
-const ScoresContainer = () => {
-  const { data, error, loading } = useFetchLiveScores();
+const ScoresContainer = ({ teams }) => {
+  const [refresh, setRefresh] = useState(false);
+  const { data, error, loading } = useFetchLiveScores({
+    teams,
+    refresh,
+    setRefresh,
+  });
 
-  // console.log({ data, error, loading });
+  const handleRefresh = () => {
+    setRefresh(true);
+  };
+
+  console.log({ data, error, loading });
 
   return (
     <View style={styles.scoreBox}>
@@ -26,19 +37,30 @@ const ScoresContainer = () => {
         </View>
       ) : (
         <View style={styles.liveScoresContainer}>
-          <Text style={styles.liveScoresText}>
-            ({data.games.length}gp) Scores for {data.date.pretty}:{" "}
-          </Text>
-          <ScrollView
-            horizontal
+          <View style={styles.date}>
+            <Text style={styles.liveScoresText}>
+              ({data.games.length}gp) Scores for {data.date.pretty}:{" "}
+            </Text>
+            <TouchableOpacity onPress={() => handleRefresh()}>
+              <SimpleLineIcons
+                name="refresh"
+                size={20}
+                style={styles.refreshIcon}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <GestureHanlderScrollView
+            horizontal={true}
             snapToInterval={width}
             syles={styles.scoreCardContainer}
             showsHorizontalScrollIndicator={false}
           >
             {data.games.map((game, idx) => (
-              <ScoreCard game={game} key={idx} />
+              // <ScoreCard game={game} key={idx} />
+              <ScoreCard2 game={game} key={idx} />
             ))}
-          </ScrollView>
+          </GestureHanlderScrollView>
         </View>
       )}
 
@@ -50,11 +72,10 @@ const ScoresContainer = () => {
 const styles = StyleSheet.create({
   scoreBox: {
     padding: 5,
-    height: height * 0.22,
+    height: 250,
     justifyContent: "center",
     borderBottomColor: "lightgray",
     borderBottomWidth: 0.5,
-    backgroundColor: "white",
   },
   loadingContainer: {
     justifyContent: "center",
@@ -68,6 +89,10 @@ const styles = StyleSheet.create({
   liveScoresText: {
     fontSize: 16,
     fontWeight: "700",
+  },
+  date: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 

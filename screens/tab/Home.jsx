@@ -1,11 +1,10 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   Text,
   View,
   StyleSheet,
   ActivityIndicator,
   Dimensions,
-  RefreshControl,
   ScrollView,
 } from "react-native";
 
@@ -91,10 +90,10 @@ const Home = () => {
       ) : (
         <>
           <View style={styles.container}>
-            <View style={styles.headerContainer}>
+            {/* <View style={styles.headerContainer}>
               <Text style={styles.headerText}>National League </Text>
-            </View>
-            <ScoresContainer />
+            </View> */}
+            <ScoresContainer teams={data} />
             <View style={styles.pagesHeaderBtns}>
               <PageTitleButtons
                 pages={pages}
@@ -136,6 +135,7 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flexGrow: 1,
   },
   loadingContainer: {
@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 26,
     color: "white",
+    alignItems: "center",
   },
   teamInfo: {
     flexDirection: "row",

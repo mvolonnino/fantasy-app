@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { matchTeamLogo } from "../helpers";
 
-const useFetchLiveScores = () => {
+const useFetchLiveScores = ({ teams, refresh, setRefresh }) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -19,17 +19,21 @@ const useFetchLiveScores = () => {
 
         if (response) {
           const { data } = response;
+          const newData = matchTeamLogo({ data, teams });
+          console.log("new data ", { newData });
+          data.games = newData;
           setData(data);
         }
       } catch (error) {
         setError(error.message);
       } finally {
         setLoading(false);
+        setRefresh(false);
       }
     })();
-  }, [refreshing]);
+  }, [refresh]);
 
-  return { data, error, loading, refreshing, setRefreshing };
+  return { data, error, loading };
 };
 
 export default useFetchLiveScores;
