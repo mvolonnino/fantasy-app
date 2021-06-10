@@ -27,7 +27,7 @@ const ScoresContainer = ({ teams }) => {
     setRefresh(true);
   };
 
-  console.log({ data, error, loading });
+  // console.log({ data, error, loading });
 
   return (
     <View style={styles.scoreBox}>

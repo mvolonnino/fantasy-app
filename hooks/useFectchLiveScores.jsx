@@ -20,7 +20,6 @@ const useFetchLiveScores = ({ teams, refresh, setRefresh }) => {
         if (response) {
           const { data } = response;
           const newData = matchTeamLogo({ data, teams });
-          console.log("new data ", { newData });
           data.games = newData;
           setData(data);
         }

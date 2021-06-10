@@ -46,29 +46,56 @@ const Home = () => {
     setDivision(title);
   };
 
-  const handleSwipeIndicator = (event) => {
-    event.persist();
-    const { x } = event.nativeEvent.contentOffset;
-    if (x <= 214) {
-      setPages({
-        League: true,
-        Conference: false,
-        Division: false,
-      });
-    }
-    if (x > 214 && x < 642) {
-      setPages({
-        League: false,
-        Conference: true,
-        Division: false,
-      });
-    }
-    if (x >= 642) {
-      setPages({
-        League: false,
-        Conference: false,
-        Division: true,
-      });
+  const handleSwipeIndicator = ({ event, idx }) => {
+    if (event) {
+      event.persist();
+      const { x } = event.nativeEvent.contentOffset;
+      if (x <= 214) {
+        setPages({
+          League: true,
+          Conference: false,
+          Division: false,
+        });
+      }
+      if (x > 214 && x < 642) {
+        setPages({
+          League: false,
+          Conference: true,
+          Division: false,
+        });
+      }
+      if (x >= 642) {
+        setPages({
+          League: false,
+          Conference: false,
+          Division: true,
+        });
+      }
+    } else {
+      if (idx === 0) {
+        setPages({
+          League: true,
+          Conference: false,
+          Division: false,
+        });
+        handleScroll(0);
+      }
+      if (idx === 1) {
+        setPages({
+          League: false,
+          Conference: true,
+          Division: false,
+        });
+        handleScroll(1);
+      }
+      if (idx === 2) {
+        setPages({
+          League: false,
+          Conference: false,
+          Division: true,
+        });
+        handleScroll(2);
+      }
     }
   };
 
@@ -97,7 +124,7 @@ const Home = () => {
             <View style={styles.pagesHeaderBtns}>
               <PageTitleButtons
                 pages={pages}
-                handleScroll={handleScroll}
+                handleSwipeIndicator={handleSwipeIndicator}
                 styles={styles}
               />
             </View>
@@ -106,7 +133,7 @@ const Home = () => {
               decelerationRate="fast"
               horizontal={true}
               style={styles.teamsContainer}
-              onMomentumScrollEnd={(event) => handleSwipeIndicator(event)}
+              onMomentumScrollEnd={(event) => handleSwipeIndicator({ event })}
               ref={scrollViewRef}
               showsHorizontalScrollIndicator={false}
             >
@@ -127,7 +154,6 @@ const Home = () => {
           </View>
         </>
       )}
-
       {error ? <Text>{error}</Text> : null}
     </View>
   );
@@ -159,8 +185,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     backgroundColor: "white",
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 0.25,
     borderBottomColor: "lightgray",
+    borderTopWidth: 0.25,
+    borderTopColor: "lightgray",
   },
   teamsContainer: {
     flex: 1,
@@ -175,8 +203,6 @@ const styles = StyleSheet.create({
   pagesHeaderBtns: {
     flexDirection: "row",
     justifyContent: "space-around",
-    borderBottomWidth: 1,
-    borderBottomColor: "lightgray",
     paddingTop: 15,
     paddingBottom: 5,
   },
