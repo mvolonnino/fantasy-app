@@ -14,20 +14,14 @@ import axios from "axios";
 
 import { GoogleBtn } from "../shared";
 import { UserContext } from "../context";
+import { googleURL } from "../helpers";
 
 const width = Dimensions.get("window").width;
 const OS = Platform.OS;
 console.log("Platform OS => ", OS);
 
 const Login = () => {
-  let localhost = "localhost";
-  let ipAddress = "192.168.1.12";
   const { userDispatch } = useContext(UserContext);
-  const [URL, setURL] = useState(
-    OS === "ios"
-      ? `http://${localhost}:5000/api/v1/user/googlelogin`
-      : `http://${ipAddress}:5000/api/v1/user/googlelogin`
-  );
   const [error, setError] = useState("");
 
   async function signInWithGoogleAsync() {
@@ -42,7 +36,7 @@ const Login = () => {
         const { idToken } = result;
         axios({
           method: "POST",
-          url: URL,
+          url: googleURL,
           data: {
             idToken: idToken,
             OS,
