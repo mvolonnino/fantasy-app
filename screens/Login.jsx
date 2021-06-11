@@ -20,7 +20,14 @@ const OS = Platform.OS;
 console.log("Platform OS => ", OS);
 
 const Login = () => {
+  let localhost = "localhost";
+  let ipAddress = "192.168.1.12";
   const { userDispatch } = useContext(UserContext);
+  const [URL, setURL] = useState(
+    OS === "ios"
+      ? `http://${localhost}:5000/api/v1/user/googlelogin`
+      : `http://${ipAddress}:5000/api/v1/user/googlelogin`
+  );
   const [error, setError] = useState("");
 
   async function signInWithGoogleAsync() {
@@ -33,10 +40,9 @@ const Login = () => {
 
       if (result.type === "success") {
         const { idToken } = result;
-
         axios({
           method: "POST",
-          url: "http://localhost:5000/api/v1/user/googlelogin",
+          url: URL,
           data: {
             idToken: idToken,
             OS,

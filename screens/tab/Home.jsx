@@ -116,17 +116,19 @@ const Home = () => {
         </View>
       ) : (
         <>
-          <View style={styles.container}>
-            {/* <View style={styles.headerContainer}>
+          {/* <View style={styles.headerContainer}>
               <Text style={styles.headerText}>National League </Text>
             </View> */}
+          <View style={styles.container}>
             <ScoresContainer teams={data} />
-            <View style={styles.pagesHeaderBtns}>
-              <PageTitleButtons
-                pages={pages}
-                handleSwipeIndicator={handleSwipeIndicator}
-                styles={styles}
-              />
+            <View>
+              <View style={styles.pagesHeaderBtns}>
+                <PageTitleButtons
+                  pages={pages}
+                  handleSwipeIndicator={handleSwipeIndicator}
+                  styles={styles}
+                />
+              </View>
             </View>
             <ScrollView
               snapToInterval={width}
@@ -161,7 +163,7 @@ const Home = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    paddingTop: 20,
     flexGrow: 1,
   },
   loadingContainer: {
@@ -205,6 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingTop: 15,
     paddingBottom: 5,
+    // backgroundColor: "#051426",
   },
   pageTextIndicator: {
     fontSize: 20,

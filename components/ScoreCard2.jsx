@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { ScrollView as GestureHanlderScrollView } from "react-native-gesture-handler";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const ScoreCard2 = ({ game }) => {
   const homeTeam = game.teams.home.teamName;

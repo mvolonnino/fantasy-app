@@ -13,7 +13,7 @@ import { ScrollView as GestureHanlderScrollView } from "react-native-gesture-han
 import { useFetchLiveScores } from "../hooks";
 import { ScoreCard, ScoreCard2 } from "../components";
 
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 const ScoresContainer = ({ teams }) => {
   const [refresh, setRefresh] = useState(false);
@@ -33,7 +33,7 @@ const ScoresContainer = ({ teams }) => {
     <View style={styles.scoreBox}>
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="small" />
+          <ActivityIndicator size="small" color="#051426" />
         </View>
       ) : (
         <View style={styles.liveScoresContainer}>
@@ -72,7 +72,7 @@ const ScoresContainer = ({ teams }) => {
 const styles = StyleSheet.create({
   scoreBox: {
     padding: 5,
-    height: 250,
+    height: 265,
     justifyContent: "center",
     borderBottomColor: "lightgray",
     borderBottomWidth: 0.5,

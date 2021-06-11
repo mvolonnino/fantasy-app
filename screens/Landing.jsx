@@ -9,10 +9,10 @@ const Stack = createStackNavigator();
 
 const Landing = ({ navigation }) => {
   const { userState } = useContext(UserContext);
-  // const { user } = userState;
-  const user = {
-    name: "matt volonnino",
-  };
+  const { user } = userState;
+  // const user = {
+  //   name: "matt volonnino",
+  // };
 
   return (
     <>
